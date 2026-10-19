@@ -1,0 +1,327 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Danny Painter | Head of Creative &amp; Technical, Purpose Media</title>
+  <meta name="description" content="Danny Painter is Head of Creative &amp; Technical at Purpose Media (UK) Ltd in Nottingham. Get in touch at hello@dannypainter.co.uk.">
+  <meta name="author" content="Danny Painter">
+  <link rel="canonical" href="https://dannypainter.co.uk/">
+
+  <meta property="og:type" content="profile">
+  <meta property="og:url" content="https://dannypainter.co.uk/">
+  <meta property="og:site_name" content="Danny Painter">
+  <meta property="og:title" content="Danny Painter | Head of Creative &amp; Technical, Purpose Media">
+  <meta property="og:description" content="Head of Creative &amp; Technical at Purpose Media (UK) Ltd, Nottingham.">
+  <meta property="og:image" content="https://dannypainter.co.uk/og.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="Danny Painter, set in large type above a clay-rendered Formula 1 car">
+  <meta property="og:locale" content="en_GB">
+  <meta property="profile:first_name" content="Danny">
+  <meta property="profile:last_name" content="Painter">
+  <meta name="twitter:card" content="summary_large_image">
+
+  <!-- Structured data: tells search engines and AI assistants who this page is about -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "Person",
+        "@id": "https://dannypainter.co.uk/#person",
+        "name": "Danny Painter",
+        "givenName": "Danny",
+        "familyName": "Painter",
+        "jobTitle": "Head of Creative & Technical",
+        "description": "Head of Creative & Technical at Purpose Media (UK) Ltd, Nottingham.",
+        "worksFor": {
+          "@type": "Organization",
+          "name": "Purpose Media (UK) Ltd",
+          "url": "https://www.purposemedia.co.uk/"
+        },
+        "workLocation": {
+          "@type": "Place",
+          "address": { "@type": "PostalAddress", "addressLocality": "Nottingham", "addressCountry": "GB" }
+        },
+        "url": "https://dannypainter.co.uk/",
+        "email": "mailto:hello@dannypainter.co.uk",
+        "image": "https://dannypainter.co.uk/og.png",
+        "sameAs": ["https://github.com/paintface"]
+      },
+      {
+        "@type": "ProfilePage",
+        "@id": "https://dannypainter.co.uk/#webpage",
+        "url": "https://dannypainter.co.uk/",
+        "name": "Danny Painter | Head of Creative & Technical, Purpose Media",
+        "inLanguage": "en-GB",
+        "mainEntity": { "@id": "https://dannypainter.co.uk/#person" },
+        "isPartOf": { "@id": "https://dannypainter.co.uk/#website" }
+      },
+      {
+        "@type": "WebSite",
+        "@id": "https://dannypainter.co.uk/#website",
+        "url": "https://dannypainter.co.uk/",
+        "name": "Danny Painter",
+        "publisher": { "@id": "https://dannypainter.co.uk/#person" }
+      }
+    ]
+  }
+  </script>
+  <meta name="theme-color" content="#17171a">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%2317171a'/%3E%3Ctext x='16' y='22' font-family='Inter,Arial,sans-serif' font-weight='800' font-size='15' letter-spacing='-1' text-anchor='middle' fill='%23ededf0'%3EDP%3C/text%3E%3C/svg%3E">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;800&display=swap">
+  <style>
+    :root {
+      --bg: #17171a; --glow: #232328; --fg: #ededf0; --muted: #85858e; --vignette: rgba(0, 0, 0, .45);
+      color-scheme: dark;
+    }
+    * { margin: 0; box-sizing: border-box; }
+    body {
+      height: 100vh; overflow: hidden;
+      background: radial-gradient(ellipse at 50% 40%, var(--glow), var(--bg) 70%);
+      color: var(--fg);
+      font: 16px/1.5 Inter, system-ui, -apple-system, sans-serif;
+    }
+    a { color: var(--fg); }
+
+    /* Giant name runs across the top, behind the 3D layer so the car cuts into it */
+    .type {
+      position: fixed; top: clamp(16px, 4vh, 48px); left: 0; right: 0; z-index: 0;
+      padding: 0 clamp(16px, 4vw, 64px);
+      font-size: 12vw; font-weight: 800; line-height: .9; letter-spacing: -.05em; white-space: nowrap; /* exact size set by fitType() */
+      text-transform: uppercase;
+      opacity: 0; translate: 0 2vh;
+      transition: opacity 1.4s ease .2s, translate 2.2s cubic-bezier(.2, .7, .1, 1) .2s;
+    }
+    .type span { display: inline-block; margin-left: var(--bearing, 0); }
+    .type-in .type { opacity: 1; translate: 0 0; }
+
+    canvas { position: fixed; inset: 0; z-index: 1; display: block; }
+
+    main, .credit { position: fixed; z-index: 2; bottom: clamp(16px, 5vh, 48px); font-size: 13px; color: var(--muted); }
+    main { left: clamp(16px, 4vw, 64px); }
+    main p + p { margin-top: .25rem; }
+    .credit {
+      right: 12px; bottom: 14px; font-size: 10px; line-height: 1; letter-spacing: .02em;
+      writing-mode: vertical-rl; rotate: 180deg; /* reads bottom to top, hugging the corner */
+    }
+    .credit a { color: inherit; }
+
+    /* Film grain and vignette over everything */
+    body::before, body::after { content: ''; position: fixed; inset: 0; z-index: 3; pointer-events: none; }
+    body::before { background: radial-gradient(ellipse at 50% 45%, transparent 55%, var(--vignette)); }
+    body::after {
+      inset: -50%;
+      background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+      opacity: .07;
+      animation: grain 1s steps(6) infinite;
+    }
+    @keyframes grain {
+      0% { transform: translate(0, 0); } 20% { transform: translate(-3%, 2%); } 40% { transform: translate(2%, -3%); }
+      60% { transform: translate(-2%, -1%); } 80% { transform: translate(3%, 3%); } 100% { transform: translate(0, 0); }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      body::after { animation: none; }
+      .type { transition: none; }
+    }
+  </style>
+  <script type="importmap">
+    { "imports": {
+      "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js",
+      "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"
+    } }
+  </script>
+</head>
+<body>
+  <header>
+    <h1 class="type"><span>Danny Painter</span></h1>
+  </header>
+  <main>
+    <p>Head of Creative &amp; Technical at <a href="https://www.purposemedia.co.uk/">Purpose Media</a>, Nottingham.</p>
+    <p><a href="mailto:hello@dannypainter.co.uk">hello@dannypainter.co.uk</a> &middot; <a href="https://github.com/paintface" rel="me">GitHub</a></p>
+  </main>
+  <p class="credit">Red Bull RB22 model by <a href="https://sketchfab.com/heynic">vecarz</a>, <a href="http://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a></p>
+
+  <script type="module">
+    import * as THREE from 'three';
+    import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
+    import { MeshoptDecoder } from 'three/addons/libs/meshopt_decoder.module.js';
+    import { EffectComposer } from 'three/addons/postprocessing/EffectComposer.js';
+    import { RenderPass } from 'three/addons/postprocessing/RenderPass.js';
+    import { BokehPass } from 'three/addons/postprocessing/BokehPass.js';
+    import { OutputPass } from 'three/addons/postprocessing/OutputPass.js';
+
+    const still = matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const ease = x => x * x * (3 - 2 * x); // smoothstep on 0..1
+    const ramp = (t, a, b) => ease(Math.min(1, Math.max(0, (t - a) / (b - a))));
+
+    // Phones get no depth of field and a lower resolution: full-screen blur at retina is heavy on battery
+    const lite = matchMedia('(pointer: coarse), (max-width: 768px)').matches;
+    const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+    renderer.setPixelRatio(Math.min(devicePixelRatio, lite ? 1.5 : 2));
+    renderer.toneMapping = THREE.ACESFilmicToneMapping;
+    renderer.domElement.setAttribute('aria-hidden', 'true'); // decorative
+    document.body.append(renderer.domElement);
+
+    const scene = new THREE.Scene();
+    const camera = new THREE.PerspectiveCamera(40, 1, 0.1, 100);
+
+    // Studio environment: a dark room with softboxes, used only for reflections
+    const studio = new THREE.Scene();
+    const softbox = (w, h, intensity, x, y, z) => {
+      const m = new THREE.Mesh(new THREE.PlaneGeometry(w, h), new THREE.MeshBasicMaterial({ color: new THREE.Color(intensity, intensity, intensity), side: THREE.DoubleSide }));
+      m.position.set(x, y, z);
+      m.lookAt(0, 0, 0);
+      studio.add(m);
+    };
+    softbox(6, 6, 4, 0, 8, 2);    // overhead
+    softbox(2, 8, 3, -7, 3, 4);   // key strip, front left
+    softbox(2, 8, 2, 7, 2, 3);    // fill strip, right
+    softbox(10, 2, 8, 0, 3, -8);  // rim, behind
+    scene.environment = new THREE.PMREMGenerator(renderer).fromScene(studio, 0.03).texture;
+
+    const hemi = new THREE.HemisphereLight();
+    const key = new THREE.DirectionalLight(0xfff1e0);
+    key.position.set(-5, 8, 5);
+    const fill = new THREE.DirectionalLight(0xe6eeff);
+    fill.position.set(6, 3, 4);
+    const rim = new THREE.DirectionalLight(0xffffff);
+    rim.position.set(0, 2, -8);
+    // A narrow beam that glides across the bodywork now and then, like a car advert
+    const sweep = new THREE.SpotLight(0xffffff, 0, 0, 0.09, 1, 0);
+    scene.add(hemi, key, fill, rim, sweep, sweep.target);
+
+    // Monochrome clay, a deeper tone for tyres/carbon/glass, and one accent: the rear light and brake discs glow
+    const clay = new THREE.MeshStandardMaterial({ roughness: 0.7 });
+    const clayDark = new THREE.MeshStandardMaterial({ roughness: 0.65 });
+    const accent = new THREE.MeshStandardMaterial({ color: 0x1a0503, emissive: 0xff3b2f, emissiveIntensity: 0 });
+
+    // Light levels the reveal fades up to
+    const theme = { hemi: 0.35, key: 1, fill: 0.4, rim: 3.4, env: 0.3, sweep: 7 };
+    clay.color.set(0x2a2a2f);
+    clayDark.color.set(0x1a1a1e);
+    hemi.color.set(0xe8e8ff);
+    hemi.groundColor.set(0x2a2a30);
+
+    // Tipped towards the viewer and rolled onto a bottom-left to top-right diagonal; the car turns inside this frame
+    const stage = new THREE.Group();
+    stage.rotation.set(0.55, 0, 0.38);
+    stage.position.y = 0.62;
+    scene.add(stage);
+    const hero = new THREE.Group();
+    stage.add(hero);
+
+    const darkParts = ['tread_medium', 'sidewall', 'redbull_carbon1', 'redbull_carbon2', 'redbull_carbon3', 'carbon.sw', 'black_s.001', 'glass', 'redbull_wheel_hub'];
+    const accentParts = ['rear_light_2', 'discs'];
+    const hiddenParts = ['redbull_decals', 'sw_decals.001', 'redbull_number_3'];
+    let loadedAt = null;
+    new GLTFLoader().setMeshoptDecoder(MeshoptDecoder).load('redbull.glb', ({ scene: model }) => {
+      model.traverse(o => {
+        if (!o.isMesh) return;
+        const name = o.material.name;
+        o.visible = !hiddenParts.includes(name);
+        o.material = accentParts.includes(name) ? accent : darkParts.includes(name) ? clayDark : clay;
+      });
+      const box = new THREE.Box3().setFromObject(model);
+      const size = box.getSize(new THREE.Vector3());
+      model.position.copy(box.getCenter(new THREE.Vector3())).negate(); // pivot at the centre so it twists in place
+      hero.scale.setScalar(4.3 / Math.max(size.x, size.y, size.z));
+      hero.add(model);
+      loadedAt = performance.now();
+    });
+
+    // Depth of field, blurred after the colour conversion so soft edges don't glow.
+    // The stock bokeh shader forces alpha to 1, which would hide the type behind the canvas.
+    const composer = new EffectComposer(renderer);
+    composer.addPass(new RenderPass(scene, camera));
+    composer.addPass(new OutputPass());
+    const bokeh = new BokehPass(scene, camera, { focus: 3.2, aperture: 0.008, maxblur: 0.013 });
+    bokeh.materialBokeh.fragmentShader = bokeh.materialBokeh.fragmentShader.replace('gl_FragColor.a = 1.0;', '');
+    bokeh.enabled = !lite;
+    composer.addPass(bokeh);
+
+    // Size the name so its ink (not its text box) spans exactly the width inside the page padding.
+    // Big type carries visible side bearings, so the D and R are measured and pulled out to the edges.
+    const type = document.querySelector('.type');
+    const ctx = document.createElement('canvas').getContext('2d');
+    const fitType = () => {
+      const pad = parseFloat(getComputedStyle(type).paddingLeft) * 2;
+      type.style.fontSize = '100px';
+      const text = type.textContent.toUpperCase();
+      ctx.font = '800 100px Inter';
+      const first = ctx.measureText(text[0]), last = ctx.measureText(text.at(-1));
+      const lsb = first.actualBoundingBoxLeft * -1, rsb = last.width - last.actualBoundingBoxRight;
+      const ls = parseFloat(getComputedStyle(type).letterSpacing);
+      const ink = type.firstChild.getBoundingClientRect().width - ls - lsb - rsb;
+      type.style.fontSize = `${100 * (type.clientWidth - pad) / ink}px`;
+      type.style.setProperty('--bearing', `${-lsb / 100}em`);
+    };
+    document.fonts.ready.then(() => {
+      fitType();
+      document.documentElement.classList.add('type-in');
+    });
+
+    const resize = () => {
+      fitType();
+      const w = innerWidth, h = innerHeight;
+      renderer.setSize(w, h);
+      composer.setSize(w, h);
+      camera.aspect = w / h;
+      camera.updateProjectionMatrix();
+    };
+    addEventListener('resize', resize);
+    resize();
+
+    // Pointer only sets a target; the loop eases towards it
+    const pointer = { x: 0, y: 0 }, lean = { x: 0, y: 0 };
+    if (matchMedia('(pointer: fine)').matches) {
+      addEventListener('pointermove', e => {
+        pointer.x = e.clientX / innerWidth * 2 - 1;
+        pointer.y = e.clientY / innerHeight * 2 - 1;
+      });
+    }
+
+    // Resting pose: nose towards the viewer, rolled slightly
+    const TURN = 1.2, TWIST = 0.35;
+    hero.rotation.set(0, TURN, TWIST); // also the pose held for reduced motion
+    const narrow = () => innerWidth < innerHeight;
+
+    renderer.setAnimationLoop(ms => {
+      const s = ms / 1000;
+
+      // Reveal: rim light first, so the car appears as a silhouette, then the key fades up
+      const r = loadedAt === null ? 0 : still ? 10 : (performance.now() - loadedAt) / 1000; // reduced motion: fully lit at once
+      const rimIn = ramp(r, 0, 1.2), keyIn = ramp(r, 0.9, 3.4);
+      rim.intensity = theme.rim * rimIn;
+      key.intensity = theme.key * keyIn;
+      fill.intensity = theme.fill * keyIn;
+      hemi.intensity = theme.hemi * keyIn;
+      scene.environmentIntensity = theme.env * keyIn;
+      accent.emissiveIntensity = 1.6 * ramp(r, 2.6, 4);
+
+      if (!still) {
+        // Eased sweep plus a slower twist about the car's length
+        hero.rotation.y = TURN + (1 - Math.cos(s * 0.06)) * 0.5;
+        hero.rotation.z = TWIST + Math.sin(s * 0.045) * 0.2;
+        lean.x += (pointer.x - lean.x) * 0.03;
+        lean.y += (pointer.y - lean.y) * 0.03;
+        stage.rotation.set(0.55 + lean.y * 0.08, lean.x * 0.12, 0.38);
+
+        // Light sweep: one pass every 9s, crossing left to right and fading in and out
+        const phase = (s % 9) / 9, pass = ramp(phase, 0, 0.45);
+        sweep.position.set(-7 + pass * 14, 4, 6);
+        sweep.intensity = theme.sweep * Math.sin(pass * Math.PI) ** 2 * keyIn;
+      }
+
+      camera.position.set(0, 0.6, narrow() ? 5.1 : 2.3);
+      camera.lookAt(0, 0.85, 0);
+      bokeh.uniforms.focus.value = camera.position.distanceTo(stage.position);
+
+      composer.render();
+    });
+  </script>
+</body>
+</html>
